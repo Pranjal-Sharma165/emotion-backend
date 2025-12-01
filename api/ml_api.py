@@ -30,9 +30,22 @@ from pydantic import BaseModel
 from api.emotion_model import EmotionModel
 from api.preprocessing import decode_and_preprocess
 from api.smoothing import Smoother
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
+origins = [
+    "https://mood-o-meter.onrender.com",
+    "http://localhost:3000",  # if testing locally
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],      
+    allow_credentials=True,
+    allow_methods=["*"],        # GET, POST, OPTIONS, etc.
+    allow_headers=["*"],        # Content-Type, Authorization, etc.
+)
 model = EmotionModel()
 smoother = Smoother()
 
